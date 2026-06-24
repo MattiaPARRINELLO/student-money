@@ -38,6 +38,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# contenu du site (généré via IA)
-/content/drafts/
-/content/published/
+
