@@ -7,7 +7,7 @@ import {
 import { searchWebMulti } from "@/lib/search"
 
 const ZEN_API = "https://opencode.ai/zen/go/v1/chat/completions"
-const MODEL = "deepseek-v4-pro"
+const MODEL = "deepseek-v4-flash"
 
 const SYSTEM_PROMPT = `Tu es un journaliste expert en finances étudiantes francophones.
 Tu écris pour Student-Money, le blog de référence des étudiants français qui veulent économiser.
@@ -101,11 +101,17 @@ async function generateArticle(topic: string): Promise<{ raw: string; slug: stri
       signal: AbortSignal.timeout(120000),
     })
 
-    if (!res.ok) return null
+    if (!res.ok) {
+      console.error("[generateArticle] API error:", res.status, await res.text().catch(() => ""))
+      return null
+    }
 
     const json = await res.json()
     const raw = json.choices?.[0]?.message?.content
-    if (!raw) return null
+    if (!raw) {
+      console.error("[generateArticle] No content in response:", JSON.stringify(json).slice(0, 200))
+      return null
+    }
 
     const slugMatch = raw.match(/slug:\s*"([^"]+)"/)
     const titleMatch = raw.match(/title:\s*"([^"]+)"/)
@@ -113,7 +119,8 @@ async function generateArticle(topic: string): Promise<{ raw: string; slug: stri
     const title = titleMatch?.[1] || topic
 
     return { raw, slug, title }
-  } catch {
+  } catch (err) {
+    console.error("[generateArticle] Error:", err)
     return null
   }
 }

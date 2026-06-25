@@ -1,7 +1,7 @@
 import { searchWeb } from "@/lib/search"
 
 const ZEN_API = "https://opencode.ai/zen/go/v1/chat/completions"
-const MODEL = "deepseek-v4-pro"
+const MODEL = "deepseek-v4-flash"
 
 const SYSTEM_PROMPT = `Tu es un journaliste expert en finances étudiantes francophones.
 Tu écris pour Student-Money, le blog de référence des étudiants français qui veulent économiser.
