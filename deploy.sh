@@ -9,9 +9,9 @@ STANDALONE_DIR=$(find .next/standalone -name server.js -maxdepth 4 | head -1 | x
 cp -r .next/static "$STANDALONE_DIR/.next/static"
 cp -r public "$STANDALONE_DIR/public"
 
-echo "🤐 Zip (exclusion de content/ pour ne pas écraser les articles du serveur)..."
+echo "🤐 Zip (exclusion de content/ et node_modules/)..."
 cd "$STANDALONE_DIR"
-zip -r "$OLDPWD/deploy.zip" . -x "content/*"
+zip -r "$OLDPWD/deploy.zip" . -x "content/*" "node_modules/*"
 
 echo "✅ Fichier créé : deploy.zip"
 echo ""
