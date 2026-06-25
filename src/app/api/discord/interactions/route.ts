@@ -75,7 +75,12 @@ async function generateArticle(topic: string): Promise<{ raw: string; slug: stri
     const apiKey = process.env.OPENSCODE_API_KEY
     if (!apiKey) return null
 
-    const searchResults = await searchWebMulti([topic])
+    const searchQueries = [
+      topic,
+      `${topic} étudiants France 2026`,
+      `${topic} aides astuces conseils`,
+    ]
+    const searchResults = await searchWebMulti(searchQueries)
     const date = new Date().toISOString().split("T")[0]
     let userPrompt = `SUJET : ${topic}\nDATE : ${date}\n\n`
     if (searchResults) {

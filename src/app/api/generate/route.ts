@@ -1,4 +1,4 @@
-import { searchWeb } from "@/lib/search"
+import { searchWebMulti } from "@/lib/search"
 
 const ZEN_API = "https://opencode.ai/zen/go/v1/chat/completions"
 const MODEL = "deepseek-v4-flash"
@@ -101,7 +101,12 @@ export async function POST(request: Request) {
 
     const cleanTopic = topic.trim()
 
-    const { results: searchResults, urls: sourceUrls } = await searchWeb(cleanTopic)
+    const searchQueries = [
+      cleanTopic,
+      `${cleanTopic} étudiants France 2026`,
+      `${cleanTopic} aides astuces conseils`,
+    ]
+    const { results: searchResults, urls: sourceUrls } = await searchWebMulti(searchQueries)
 
     const apiKey = process.env.OPENSCODE_API_KEY
 
